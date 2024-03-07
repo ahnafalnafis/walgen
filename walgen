@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# TODO: Set next wallpaper of the saved one after restoring saved wallpaper.
+
+default_wallpaper_dir="$HOME/Pictures/Wallpapers"
+
+if [ "$WALLPAPERS" == "" ]; then
+  WALLPAPERS=$default_wallpaper_dir
+fi
+
+state="auto"
+refresh_time=$(( 10 * 60 ))
+
+# Restore previous wallpaper.
+[ -f "$HOME/.config/nitrogen/bg-saved.cfg" ] && nitrogen --restore &
+sleep $refresh_time
+
+for wallpaper in "$WALLPAPERS"/*.*; do
+  nitrogen --set-$state "$wallpaper"
+  sleep $refresh_time
+done
